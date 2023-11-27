@@ -40,7 +40,7 @@ contract Lotto is VRFv2Consumer{
     /// @dev function for the admin to start lotto
    /// @param _deadline is the duration for which the game exist 
      function startLotto(uint256 _deadline) public onlyAdmin{
-        require(address(this).balance >= 1 ether, "Fund the contract for winners"); //change to 3 ether
+        require(address(this).balance >= 1 ether, "Fund the contract for winners");
         require(lottoStarted == false, "Lotto In Progress");
 
         deadline = block.timestamp + (_deadline * 1 days);
@@ -81,11 +81,13 @@ contract Lotto is VRFv2Consumer{
 
     /// @dev function to see the time left to play the lotto game
     function seeTimeLeft() external view returns(uint256){
-         if(deadline == 0){
-             return 0;
-         }else{
-             return deadline - block.timestamp; 
-         }  
+        if(deadline == 0){
+            return 0;
+        } else if (deadline <= block.timestamp) {
+            return 0;
+        }else{
+            return deadline - block.timestamp;
+        }  
      }
 
    

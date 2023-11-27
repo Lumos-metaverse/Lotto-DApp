@@ -12,7 +12,6 @@ import {
 function App() {
   const [walletAddress, setWalletAddress] = useState(null);
   const [provider, setProvider] = useState(null);
-  const [lottoContractInstance, setLottoContractInstance] = useState();
   const [owner, setOwner] = useState(null);
   const [duration, setDuration] = useState(0);
   const [lottoPrice, setLottoPrice] = useState(null);
@@ -28,8 +27,7 @@ function App() {
   const [isclaimed, setIsClaimed] = useState(false);
   const [winner, setWinner] = useState(null);
 
-
-
+ 
   const web3ModalRef = useRef();
 
   function formatTimeLeft(seconds) {
@@ -224,6 +222,8 @@ function App() {
     alert("Lotto time elapsed")
   }else if (gameAmount === null || gameAmount === 0) {
     alert("Input an amount greater than zero to play");
+  }else if(gameAmount < 0.000001){
+    alert("You are required to play with at least 0.000001ETH");
   }else{
    
     try {
@@ -286,7 +286,7 @@ function App() {
           
 
           setOwner(lottoAdmin);
-          setTimeLeft(lottoTimeframe);
+          setTimeLeft(Number(lottoTimeframe));
           setLottoPrice(price);
           setLottoState(status);
           setRequestID(lastRequestID);
